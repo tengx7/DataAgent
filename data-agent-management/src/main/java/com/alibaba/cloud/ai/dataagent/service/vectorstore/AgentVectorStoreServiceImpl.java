@@ -228,6 +228,20 @@ public class AgentVectorStoreServiceImpl implements AgentVectorStoreService {
 	}
 
 	@Override
+	public List<Document> getDocumentsOnlyByFilterV2(SearchRequest searchRequest, Filter.Expression filterExpression, Integer topK) {
+		Assert.notNull(filterExpression, "filterExpression cannot be null.");
+		if (topK == null)
+			topK = dataAgentProperties.getVectorStore().getDefaultTopkLimit();
+//		SearchRequest searchRequest = SearchRequest.builder()
+//			.query(DEFAULT)
+//			.topK(topK)
+//			.filterExpression(filterExpression)
+//			.similarityThreshold(0.0)
+//			.build();
+		return vectorStore.similaritySearch(searchRequest);
+	}
+
+	@Override
 	public List<Document> getDocumentsOnlyByFilter(Filter.Expression filterExpression, Integer topK) {
 		Assert.notNull(filterExpression, "filterExpression cannot be null.");
 		if (topK == null)
